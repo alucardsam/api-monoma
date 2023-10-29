@@ -1,0 +1,17 @@
+### Endpoint auth_login role manager
+POST http://127.0.0.1:8000/api/auth
+Content-Type: application/json
+
+{
+  "username": "tester",
+  "password": "PASSWORD"
+}
+
+### Endpoint auth_login role agent
+POST http://127.0.0.1:8000/api/auth
+Content-Type: application/json
+
+{
+  "username": "prueba",
+  "password": "12345678"
+}

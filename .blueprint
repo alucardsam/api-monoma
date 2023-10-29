@@ -1,0 +1,10 @@
+created:
+    - database/factories/UsuarioFactory.php
+    - database/factories/CandidatoFactory.php
+    - database/migrations/2023_10_27_021853_create_usuarios_table.php
+    - database/migrations/2023_10_27_021854_create_candidatos_table.php
+    - app/Models/Usuario.php
+    - app/Models/Candidato.php
+models:
+    Candidato: { name: 'string nullable', source: 'string nullable', owner: 'id foreign:usuarios.id', created_by: 'id foreign:usuarios.id' }
+    Usuario: { username: 'string unique nullable', password: 'string nullable', last_login: timestamp, is_active: 'boolean nullable', role: 'string nullable' }

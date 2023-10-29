@@ -1,0 +1,27 @@
+models:
+  Usuario:
+    username: string unique nullable
+    password: string nullable
+    last_login: timestamp
+    is_active: boolean nullable
+    role: string nullable
+  Candidato:
+    name: string nullable
+    source: string nullable
+    owner: id foreign:usuarios.id
+    created_by: id foreign:usuarios.id
+
+controllers:
+  UsuarioController:
+    login:
+      validate: username, password
+      query: all
+  CandidatoController:
+    index:
+      query: all
+    show:
+      validate: id
+      query: all
+    create:
+      validate: name, source, owner
+      query: all
