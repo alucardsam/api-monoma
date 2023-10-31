@@ -20,14 +20,14 @@ class UsuarioSeeder extends Seeder
       [
         'username' => 'tester',
         'password' => Hash::make('PASSWORD'),
-        'last_login' => date('Y-m-d H:i:s'),
+        'last_login' => null,
         'is_active' => true,
         'role' => 'manager',
       ],
       [
         'username' => 'prueba',
         'password' => Hash::make('12345678'),
-        'last_login' => date('Y-m-d H:i:s'),
+        'last_login' => null,
         'is_active' => true,
         'role' => 'agent',
       ]

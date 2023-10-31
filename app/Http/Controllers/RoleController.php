@@ -2,16 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Usuario;
+use App\Interfaces\UsuarioRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
 class RoleController extends Controller
 {
+  private static $usuarioRepository;
+
+  public function __construct(UsuarioRepositoryInterface $usuarioRepository)
+  {
+    self::$usuarioRepository = $usuarioRepository;
+  }
+
   public static function hasAnyRole($roles)
   {
     try {
-      return Usuario::find(JWTController::getUserID())->hasAnyRole($roles);
+      $id = JWTController::getUserID();
+      return self::$usuarioRepository::getAnyRoleByUserID($id, $roles);
     } catch (\Exception $e) {
       throw ValidationException::withMessages([$e->getMessage()]);
     }
@@ -20,7 +28,9 @@ class RoleController extends Controller
   public static function hasRoleManager()
   {
     try {
-      return Usuario::find(JWTController::getUserID())->hasRole('manager');
+      $id = JWTController::getUserID();
+      $role = 'manager';
+      return self::$usuarioRepository::getRoleByUserID($id, $role);
     } catch (\Exception $e) {
       throw ValidationException::withMessages([$e->getMessage()]);
     }
@@ -29,7 +39,8 @@ class RoleController extends Controller
   public static function hasPermissionTo($permission)
   {
     try {
-      return Usuario::find(JWTController::getUserID())->hasPermissionTo($permission);
+      $id = JWTController::getUserID();
+      return self::$usuarioRepository::getPermissionToByUserID($id, $permission);
     } catch (\Exception $e) {
       throw ValidationException::withMessages([$e->getMessage()]);
     }

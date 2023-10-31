@@ -4,23 +4,26 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UsuarioLoginRequest;
 use App\Http\Resources\MetaTrueResource;
-use App\Models\Usuario;
+use App\Interfaces\UsuarioRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
 class UsuarioController extends Controller
 {
-  /**
-   * @param \App\Http\Requests\UsuarioLoginRequest $request
-   * @return \Illuminate\Http\Response
-   */
+  private static $usuarioRepository;
+
+  public function __construct(UsuarioRepositoryInterface $usuarioRepository)
+  {
+    self::$usuarioRepository = $usuarioRepository;
+  }
+
   public function login(UsuarioLoginRequest $request)
   {
     try {
       $username = $request->input('username');
       $pwd = $request->input('password');
-      $usuario = Usuario::where('username', $username)->first();
+      $usuario = self::$usuarioRepository::getUsuarioByUserName($username);
       if (!$usuario) {
         throw ValidationException::withMessages(['Username or Password incorrect']);
       }
@@ -41,7 +44,10 @@ class UsuarioController extends Controller
         ],
       ];
       $token = JWTController::createToken($dataJWT);
-      $usuario->update(['last_login' => date("Y-m-d H:i:s")]);
+      $dataLastLogin = [
+        'last_login' => date("Y-m-d H:i:s")
+      ];
+      self::$usuarioRepository::setLastLoginByUserID($usuario->id, $dataLastLogin);
       $data = [
         'token' => $token,
         'minutes_to_expire' => JWTController::getTTLtoMinutes()

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('username')->unique()->nullable();
             $table->string('password')->nullable();
-            $table->timestamp('last_login');
+            $table->timestamp('last_login')->nullable();
             $table->boolean('is_active')->nullable();
             $table->string('role')->nullable();
             $table->timestamps();
