@@ -9,6 +9,10 @@ class Candidato extends Model
 {
   use HasFactory;
 
+  protected $hidden = [
+    'updated_at',
+  ];
+
   /**
    * The attributes that are mass assignable.
    *
