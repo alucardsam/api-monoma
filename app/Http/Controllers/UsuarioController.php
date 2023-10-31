@@ -11,11 +11,11 @@ use Illuminate\Validation\ValidationException;
 
 class UsuarioController extends Controller
 {
-  private static $Repository;
+  private static $repository;
 
-  public function __construct(RepositoryInterface $Repository)
+  public function __construct(RepositoryInterface $repository)
   {
-    self::$Repository = $Repository;
+    self::$repository = $repository;
   }
 
   public function login(UsuarioLoginRequest $request)
@@ -23,7 +23,7 @@ class UsuarioController extends Controller
     try {
       $username = $request->input('username');
       $pwd = $request->input('password');
-      $usuario = self::$Repository::getUsuarioByUserName($username);
+      $usuario = self::$repository::getUsuarioByUserName($username);
       if (!$usuario) {
         throw ValidationException::withMessages(['Username or Password incorrect']);
       }
@@ -47,7 +47,7 @@ class UsuarioController extends Controller
       $dataLastLogin = [
         'last_login' => date("Y-m-d H:i:s")
       ];
-      self::$Repository::setLastLoginByUserID($usuario->id, $dataLastLogin);
+      self::$repository::setLastLoginByUserID($usuario->id, $dataLastLogin);
       $data = [
         'token' => $token,
         'minutes_to_expire' => JWTController::getTTLtoMinutes()

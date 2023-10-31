@@ -11,11 +11,11 @@ use Illuminate\Validation\ValidationException;
 
 class CheckRole
 {
-  private static $Repository;
+  private static $repository;
 
-  public function __construct(RepositoryInterface $Repository)
+  public function __construct(RepositoryInterface $repository)
   {
-    self::$Repository = $Repository;
+    self::$repository = $repository;
   }
 
   /**
@@ -30,7 +30,7 @@ class CheckRole
     try {
       $roles = is_array($role) ? $role : explode('|', $role);
       $id = JWTController::getUserID();
-      $hasAnyRole = self::$Repository::getAnyRoleByUserID($id, $roles);
+      $hasAnyRole = self::$repository::getAnyRoleByUserID($id, $roles);
       if (!$hasAnyRole) {
         return response()->json(MetaFalseResource::make((object) ['errors' => 'User has not privilege']), 403);
       }
