@@ -49,7 +49,6 @@ __api-request__
 __app/Http/Controllers__
 - UsuarioController.php
 - CandidatoController.php
-- RoleController.php
 - JWTController.php
 
 __app/Http/Middleware__
@@ -66,32 +65,44 @@ __app/Http/Resources__
 - CandidatoCollection.php
 - CandidatoResource.php
 
+__app/Interfaces__
+- RepositoryInterface.php
+
 __app/Models__
 - Usuario.php
 - Candidato.php
 
-__app/database/factories__
+__app/Repositories__
+- Repository.php
+
+__database/factories__
 - UsuarioFactory.php
 - CandidatoFactory.php
 
-__app/database/migrations__
+__database/migrations__
 - 2023_10_27_021853_create_usuarios_table.php
 - 2023_10_27_021854_create_candidatos_table.php
 - 2023_10_27_135021_create_permission_tables.php
 
-__app/database/seeders__
+__database/seeders__
 - UsuarioSeeder.php
 - CandidatoSeeder.php
 - RolesPermisosSeeder.php
 
-__Test__
+__tests/Feature/Http/Controllers__
 - UsuarioControllerTest.php
 - CandidatoControllerTest.php
 
 ## Archivos editados para este proyecto
 
 __app/Exceptions__
-- Handler.php
+- Handler.php (Formato de response con base a MetaFalseResource.php)
+
+__app/Http__
+- Kernel.php (Se agregaron 2 middlewware: checkJWT y CheckRole)
+
+__app/Providers__
+- AppServiceProvider.php (Se agregaron los archivos para el repository pattern RepositoryInterface.php y Repository.php)
 
 __routes__
 - web.php (Se borraron las rutas)
